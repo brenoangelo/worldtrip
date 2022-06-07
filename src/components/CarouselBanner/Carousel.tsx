@@ -6,12 +6,12 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Flex, Heading, Image, Link, Stack, Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import { api } from '../../../public/services/api';
+import { api } from '../../services/api';
 
 export function Carousel() {
 
   useEffect(() => {
-    api.get('/continents')
+    api.get('continents')
     .then(response => console.log(response.data))
   }, [])
 
