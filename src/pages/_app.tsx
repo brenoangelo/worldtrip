@@ -16,31 +16,31 @@ createServer({
         {
           name: 'Europa',
           description: 'O continente mais antigo.',
-          url: 'assets/images/europa',
+          url: '/assets/images/europa.jpg',
           slug: 'europa',
         },
         {
           name: 'Africa',
           description: 'O continente mais antigo.',
-          url: 'assets/images/africa',
+          url: '/assets/images/africa.jpg',
           slug: 'africa',
         },
         {
           name: 'America',
           description: 'O continente mais antigo.',
-          url: 'assets/images/america',
+          url: '/assets/images/america.jpg',
           slug: 'america',
         },
         {
           name: 'America do Sul',
           description: 'O continente mais antigo.',
-          url: 'assets/images/america_sul',
+          url: '/assets/images/america_sul.jpg',
           slug: 'america-do-sul',
         },
         {
           name: 'Oceania',
           description: 'O continente mais antigo.',
-          url: 'assets/images/oceania',
+          url: '/assets/images/oceania.jpg',
           slug: 'oceania',
         },
       ],
@@ -51,13 +51,14 @@ createServer({
     this.namespace = 'api';
 
     this.get('/continents', () => {
-      return this.schema.all('')
+      return this.schema.all('continent');
     });
 
-    this.get(`/continent/:slug`, (schema, request) => {
-      let id = request.params.id
+    this.get('/continents/:slug', (schema, request) => {
+      let slug = request.params.slug;
+      let post = schema.db.continents.where({ slug: slug });
 
-      return schema.continents.find(id)
+      return post;
     });
   },
 });

@@ -4,16 +4,23 @@ import { Keyboard, Mousewheel, Navigation, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { Flex, Heading, Image, Link, Stack, Text } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { Box, Flex, Heading, Image, Link, Stack, Text } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { api } from '../../services/api';
 
+type Continent = {
+  name: string;
+  description: string;
+  url: string;
+  slug: string;
+};
+
 export function Carousel() {
+  const [continents, setContinents] = useState<Continent[]>([]);
 
   useEffect(() => {
-    api.get('continents')
-    .then(response => console.log(response.data))
-  }, [])
+    api.get('continents').then(({ data }) => setContinents(data.continents));
+  }, []);
 
   return (
     <Flex>
@@ -27,21 +34,38 @@ export function Carousel() {
         modules={[Navigation, Pagination, Mousewheel, Keyboard]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <Link position="relative">
-            <Stack
-              position="absolute"
-              top="50%"
-              left="50%"
-              transform="translate(-50%, -50%)"
-              textAlign="center"
-            >
-              <Heading as="h3" color="gray.100" fontSize="5xl">Europa</Heading>
-              <Text as="h4" color="gray.100" fontSize="2xl" fontWeight={700}>O continente mais antigo.</Text>
-            </Stack>
-            <Image src="/assets/images/continent_image.svg" />
-          </Link>
-        </SwiperSlide>
+        {continents.map((continent) => (
+          <SwiperSlide>
+            <Link position="relative" href={continent.slug}>
+              <Flex
+                w="100%"
+                h="100%"
+                background="blackAlpha.600"
+                position="absolute"
+                top="50%"
+                left="50%"
+                transform="translate(-50%, -50%)"
+                textAlign="center"
+                direction="column"
+                justify="center"
+              >
+                <Heading as="h3" color="gray.100" fontSize="5xl">
+                  {continent.name}
+                </Heading>
+                <Text as="h4" color="gray.100" fontSize="2xl" fontWeight={700}>
+                  {continent.description}
+                </Text>
+              </Flex>
+              <Image
+                src={continent.url}
+                maxH={450}
+                w="100%"
+                align="center"
+                objectFit="cover"
+              />
+            </Link>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </Flex>
   );
