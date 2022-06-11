@@ -8,9 +8,17 @@ type InfoElement = {
 
 export function InfoElement({ number, src, info }: InfoElement) {
   return (
-    <Stack spacing="6" align="center" minW={158}>
-      {number ? <Text>{number}</Text> : <Image src={src} maxW={85} />}
-      <Text fontSize="2xl" fontWeight={600}>{info}</Text>
+    <Stack spacing={number ? '-3' : '6'} align="center" minW={158}>
+      {number ? (
+        <Text fontSize="5xl" fontWeight={600} color="orange.300">
+          {number}
+        </Text>
+      ) : (
+        <Image src={src} maxW={85} />
+      )}
+      <Text fontSize="2xl" fontWeight={600}>
+        {info}
+      </Text>
     </Stack>
   );
 }
