@@ -8,7 +8,7 @@ type InfoElement = {
 
 export function InfoElement({ number, src, info }: InfoElement) {
   return (
-    <Stack spacing={number ? '-3' : '6'} align="center" minW={158}>
+    <Stack spacing={number ? '-3' : '6'} align="center" minW={165}>
       {number ? (
         <Text fontSize="5xl" fontWeight={600} color="orange.300">
           {number}
@@ -16,7 +16,7 @@ export function InfoElement({ number, src, info }: InfoElement) {
       ) : (
         <Image src={src} maxW={85} />
       )}
-      <Text fontSize="2xl" fontWeight={600}>
+      <Text fontSize="2xl" fontWeight={600} overflowWrap="anywhere">
         {info}
       </Text>
     </Stack>

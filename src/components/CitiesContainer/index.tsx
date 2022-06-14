@@ -30,7 +30,7 @@ const COUNTRIES = [
 
 export function CitiesContainer() {
   return (
-    <HStack>
+    <HStack justify="space-between">
       {COUNTRIES.map((country, key) => (
         <CardImage
           key={key}

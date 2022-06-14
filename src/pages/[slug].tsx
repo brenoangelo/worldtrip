@@ -1,9 +1,11 @@
-import { Container, Flex, Heading, Image, Text } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
 import { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
+import { api } from '../services/api';
+
+import { Container, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
+
 import { CitiesContainer } from '../components/CitiesContainer';
 import { InfoElement } from '../components/InfoElement';
-import { api } from '../services/api';
 
 type ContinentPage = {
   slug: string;
@@ -17,30 +19,28 @@ export default function ContinentPage({ slug }: ContinentPage) {
   }, []);
 
   return (
-    <Flex direction="column">
-      <Flex position="relative" mb="20">
-        <Heading
-          as="h1"
-          position="absolute"
-          bottom={59}
-          left={140}
-          color="gray.100"
-          fontSize="5xl"
-          fontWeight={600}
-        >
-          Europa
-        </Heading>
-        <Image
-          src="/assets/images/europa.jpg"
-          w="100%"
-          align="center"
-          objectFit="cover"
-          maxH={500}
-        />
+    <Flex direction="column" pb="9">
+      <Flex
+        mb="20"
+        bgImage="/assets/images/europa.jpg"
+        minH={500}
+        bgPosition="center"
+      >
+        <Container maxW={1160} display="flex" alignItems="flex-end">
+          <Heading
+            as="h1"
+            color="gray.100"
+            fontSize="5xl"
+            fontWeight={600}
+            pb="59px"
+          >
+            Europa
+          </Heading>
+        </Container>
       </Flex>
 
       <Container maxW={1160}>
-        <Flex gap={70}>
+        <Flex gap={70} mb="20" align="center">
           <Text fontSize="2xl">
             A Europa é, por convenção, um dos seis continentes do mundo.
             Compreendendo a península ocidental da Eurásia, a Europa geralmente
@@ -49,20 +49,25 @@ export default function ContinentPage({ slug }: ContinentPage) {
           </Text>
 
           <Flex>
-            <InfoElement number={50} info="países"/>
-            <InfoElement number={60} info="línguas"/>
-            <InfoElement number={27} info="cidades+100"/>
+            <InfoElement number={50} info="países" />
+            <InfoElement number={60} info="línguas" />
+            <InfoElement number={27} info="cidades +100" />
           </Flex>
         </Flex>
 
-        <CitiesContainer />
+        <Stack>
+          <Heading fontWeight={500} fontSize="4xl">
+            Cidades +100
+          </Heading>
+          <CitiesContainer />
+        </Stack>
       </Container>
     </Flex>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { slug } = params;
+  const { slug }: any = params;
 
   return {
     props: {
