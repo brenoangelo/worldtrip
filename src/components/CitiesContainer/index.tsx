@@ -1,43 +1,28 @@
 import { HStack } from '@chakra-ui/react';
 import { CardImage } from './CardImage';
 
-const COUNTRIES = [
-  {
-    title: 'Londres',
-    description: 'Reino Unido',
-    imageSrc: '/assets/images/europa.jpg',
-    logoSrc: '/assets/logos/britania.png',
-  },
-  {
-    title: 'Londres',
-    description: 'Reino Unido',
-    imageSrc: '/assets/images/europa.jpg',
-    logoSrc: '/assets/logos/britania.png',
-  },
-  {
-    title: 'Londres',
-    description: 'Reino Unido',
-    imageSrc: '/assets/images/europa.jpg',
-    logoSrc: '/assets/logos/britania.png',
-  },
-  {
-    title: 'Londres',
-    description: 'Reino Unido',
-    imageSrc: '/assets/images/europa.jpg',
-    logoSrc: '/assets/logos/britania.png',
-  },
-];
+type CitiesContainerProps = {
+  cities:
+    | {
+        city: string;
+        cityImg: string;
+        country: string;
+        countryImg: string;
+      }[]
+    | null
+    | undefined;
+};
 
-export function CitiesContainer() {
+export function CitiesContainer({ cities }: CitiesContainerProps) {
   return (
-    <HStack justify="space-between">
-      {COUNTRIES.map((country, key) => (
+    <HStack spacing={45}>
+      {cities?.map((city, key) => (
         <CardImage
           key={key}
-          title={country.title}
-          description={country.description}
-          imageSrc={country.imageSrc}
-          logoSrc={country.logoSrc}
+          title={city.city}
+          description={city.country}
+          imageSrc={city.cityImg}
+          logoSrc={city.countryImg}
         />
       ))}
     </HStack>

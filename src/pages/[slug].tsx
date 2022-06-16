@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { api } from '../services/api';
 
-import { Container, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
+import { Container, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 
 import { CitiesContainer } from '../components/CitiesContainer';
 import { InfoElement } from '../components/InfoElement';
@@ -11,18 +11,42 @@ type ContinentPage = {
   slug: string;
 };
 
+type Continent = {
+  description: string;
+  id: string;
+  name: string;
+  slug: string;
+  url: string;
+  info: {
+    countriesCount: number;
+    languagesCount: number;
+    topCitiesVisitedCount: number;
+    topCities:
+      | {
+          city: string;
+          cityImg: string;
+          country: string;
+          countryImg: string;
+        }[]
+      | null
+      | undefined;
+  };
+};
+
 export default function ContinentPage({ slug }: ContinentPage) {
+  const [continent, setContinent] = useState<Continent>();
+
   useEffect(() => {
     api
       .get(`continents/${slug}`)
-      .then((response) => console.log(response.data));
+      .then((response) => setContinent(response.data[0]));
   }, []);
 
   return (
     <Flex direction="column" pb="9">
       <Flex
         mb="20"
-        bgImage="/assets/images/europa.jpg"
+        bgImage={continent?.url}
         minH={500}
         bgPosition="center"
       >
@@ -34,7 +58,7 @@ export default function ContinentPage({ slug }: ContinentPage) {
             fontWeight={600}
             pb="59px"
           >
-            Europa
+            {continent?.name}
           </Heading>
         </Container>
       </Flex>
@@ -49,9 +73,19 @@ export default function ContinentPage({ slug }: ContinentPage) {
           </Text>
 
           <Flex>
-            <InfoElement number={50} info="países" />
-            <InfoElement number={60} info="línguas" />
-            <InfoElement number={27} info="cidades +100" />
+            <InfoElement
+              number={continent?.info.countriesCount}
+              info="países"
+            />
+            <InfoElement
+              number={continent?.info.languagesCount}
+              info="línguas"
+            />
+            <InfoElement
+              number={continent?.info.topCitiesVisitedCount}
+              info="cidades +100"
+              tooltip="São as cidades que o continente possui que estão entre as 100 cidades mais visitadas do mundo"
+            />
           </Flex>
         </Flex>
 
@@ -59,7 +93,7 @@ export default function ContinentPage({ slug }: ContinentPage) {
           <Heading fontWeight={500} fontSize="4xl">
             Cidades +100
           </Heading>
-          <CitiesContainer />
+          <CitiesContainer cities={continent?.info.topCities} />
         </Stack>
       </Container>
     </Flex>

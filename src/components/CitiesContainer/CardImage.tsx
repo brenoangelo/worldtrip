@@ -14,8 +14,15 @@ export function CardImage({
   logoSrc,
 }: CardImage) {
   return (
-    <Box maxW={256} maxH={279} h="100%">
-      <Image src={imageSrc} borderRadius="4px 4px 0 0" maxH={173} />
+    <Box maxW={256} minW={256} maxH={279} h="100%">
+      <Box
+        h={173}
+        overflow="hidden"
+        borderRadius="4px 4px 0 0"
+        backgroundImage={imageSrc}
+        backgroundPosition="center"
+        backgroundSize="cover"
+      ></Box>
       <Flex
         border="1px solid"
         borderColor="orange.300"
